@@ -6,6 +6,7 @@ from .config import settings
 from threading import Lock
 import boto3
 import os
+import shutil
 
 lock = Lock()
 
@@ -48,6 +49,10 @@ def _upload_to_bucket(file_path):
     try:
         uploaded = s3.upload_file(file_path, settings.S3_BUCKET, file_name)
         if uploaded:
+            info("Database uploaded successfully...")
+            shutil.rmtree(file_path)
             os.remove(file_path)
-    except Exception as e:
-        error(f"Got an error while uploading backup to S3 API...")
+        else:
+            info("Network issue or failed to upload database...")
+    except:
+        error("Got an error while uploading backup to S3 API...")

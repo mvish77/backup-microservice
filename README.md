@@ -100,7 +100,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 | ------ | ----------- | ------------------------------- |
 | GET    | `/`         | Health check                    |
 | GET    | `/run-once` | Manually trigger backup         |
-| GET    | `/logs`     | View real-time logs (CSV-based) |
+| GET    | `/logs`     | View real-time logs (HTML)      |
 
 
 ## 🔒 Preventing Duplicate Backups
