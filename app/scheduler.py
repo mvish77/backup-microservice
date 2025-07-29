@@ -3,18 +3,31 @@ import time
 from .upload import dump_postgres_db
 from .logger import error,info
 from .config import settings
+from threading import Lock
 import boto3
 import os
+
+lock = Lock()
 
 def schedule_upload():
     """Creating upload schedule to schedule backup for specific time"""
     while True:
-        info("Upload schedule started successfully...")
-        path = dump_postgres_db()
-        if path:
-            info("Backup created successfully...")
-            _upload_to_bucket(path)
+
+        if lock.locked():
+            info("Backup already running, skipping...")
+            time.sleep(10)
+            continue
+
+        with lock:
+            info("Upload schedule started successfully...")
+            path = dump_postgres_db()
+            if path:
+                _upload_to_bucket(path)
         time.sleep(settings.UPLOAD_INTERVAL_MINUTES * 60)
+
+        
+
+
 
 def start_background_scheduler():
     """starting thread for auto backup process"""
