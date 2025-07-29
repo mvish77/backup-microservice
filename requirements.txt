@@ -1,0 +1,4 @@
+fastapi[standard]
+datacsv
+python-dotenv
+boto3

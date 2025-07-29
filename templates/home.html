@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    <p>Hiding errors to prevent path expose.</p>
+    <div>
+        {{logs|safe}}
+    </div>
+</body>
+</html>
